@@ -8,6 +8,11 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.application.Platform;
+
+
 public class GUI_MainClass implements ActionListener {
 
     /**
@@ -25,10 +30,10 @@ public class GUI_MainClass implements ActionListener {
     public BorderLayout layout;
 
     //Create Buttons
-    public JButton startButton = new JButton("START");
-    public JButton stopButton = new JButton("STOP");
-    public JButton tempoUP = new JButton("TEMPO UP");
-    public JButton tempoDown = new JButton("TEMPO DOWN");
+    public static JButton startButton = new JButton("START");
+    public static JButton stopButton = new JButton("STOP");
+    public static JButton tempoUP = new JButton("TEMPO UP");
+    public static JButton tempoDown = new JButton("TEMPO DOWN");
 
     //Create an arrayList of Check Boxes
     ArrayList<JCheckBox> checkBoxes = new ArrayList<>();
@@ -100,13 +105,11 @@ public class GUI_MainClass implements ActionListener {
         JPanel centerPanel = new JPanel(grid);      //DOUBT
 
         //Add Check Boxes to the grid Layout
-        EmptyBorder border2 = new EmptyBorder(0,0,0,0);
 
         for(int i=0; i<256; i++){
 
             JCheckBox cb = new JCheckBox();
             cb.setSelected(false);
-            cb.setBorder(border2);
             centerPanel.add(cb);
 
             checkBoxes.add(cb);
@@ -115,46 +118,33 @@ public class GUI_MainClass implements ActionListener {
         mainFrame.getContentPane().add(centerPanel);
     }
 
-    public void addActionListener(){
+     public void showAlertBox(){
 
-        //Add action Listeners to the Buttons
-
-        startButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        stopButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        tempoUP.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        tempoDown.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("ALERT!");
+        alert.setHeaderText("");
+        alert.setContentText("Please select atleast one check box to continue.");
+        alert.showAndWait();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if (e.getSource() == startButton){
+            for(JCheckBox c : checkBoxes){
+                if(c.isSelected())
+                    break;
+                else
+                    showAlertBox();
+            }
+        }
     }
+
+
 
     public static void main(String[] args){
         GUI_MainClass gui = new GUI_MainClass();
         gui.buildGUI();
     }
-
 
 
 }
