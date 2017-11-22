@@ -129,6 +129,7 @@ public class GUI_MainClass implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         if (e.getSource() == startButton){
             for(JCheckBox c : checkBoxes){
                 if(c.isSelected())
@@ -136,10 +137,14 @@ public class GUI_MainClass implements ActionListener {
                 else
                     showAlertBox();
             }
+        }else if(e.getSource() == stopButton){
+
+        }else if (e.getSource() == tempoUP){
+
+        }else if(e.getSource() == tempoDown){
+
         }
     }
-
-
 
     public static void main(String[] args){
         GUI_MainClass gui = new GUI_MainClass();
