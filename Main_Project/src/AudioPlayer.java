@@ -7,6 +7,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.JComponent;
  
 public class AudioPlayer 
 {
@@ -22,7 +23,7 @@ public class AudioPlayer
     static String filePath="/home/mudit/Music/audiolab/test_data/test.wav";
  
     // constructor to initialize streams and clip
-    public SimpleAudioPlayer()
+    public AudioPlayer()
         throws UnsupportedAudioFileException,
         IOException, LineUnavailableException 
     {   File audiofile = new File(filePath);
@@ -44,9 +45,10 @@ public class AudioPlayer
         try
         { 
  //FILE PATH HEREEEEEEEEEEEEE
-            filePath = "/home/mudit/Music/audiolab/test_data/test.wav";
-            SimpleAudioPlayer audioPlayer = 
-                            new SimpleAudioPlayer();
+   
+            filePath = "";
+            AudioPlayer audioPlayer = 
+                            new AudioPlayer();
              
             audioPlayer.play();
             Scanner sc = new Scanner(System.in);
@@ -191,3 +193,4 @@ public class AudioPlayer
     }
  
 }
+
