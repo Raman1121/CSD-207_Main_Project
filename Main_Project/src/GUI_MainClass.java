@@ -1,6 +1,3 @@
-import com.sun.scenario.effect.impl.sw.java.JSWBlend_COLOR_BURNPeer;
-
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
