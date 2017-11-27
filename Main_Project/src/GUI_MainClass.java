@@ -10,7 +10,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.application.Platform;
 
 
-public class GUI_MainClass implements ActionListener {
+public class GUI_MainClass {
 
     /**
         * Build the Main GUI of the Beatbox app
@@ -31,7 +31,7 @@ public class GUI_MainClass implements ActionListener {
     public static JButton stopButton = new JButton("STOP");
     public static JButton tempoUP = new JButton("TEMPO UP");
     public static JButton tempoDown = new JButton("TEMPO DOWN");
-
+    int count = 0;
     //Create an arrayList of Check Boxes
     ArrayList<JCheckBox> checkBoxes = new ArrayList<>();
 
@@ -41,7 +41,6 @@ public class GUI_MainClass implements ActionListener {
                                     "Cowbell", "Vibraslap", "Low-Mid Tom", "High Agogo", "Open High Conga"};
 
     public void buildGUI(){
-
         mainFrame = new JFrame("THE CYBER BEATBOX");
         layout = new BorderLayout();
         leftPanel = new JPanel();
@@ -111,36 +110,30 @@ public class GUI_MainClass implements ActionListener {
 
             checkBoxes.add(cb);
         }
+
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(JCheckBox checkBox : checkBoxes){
+                    if(checkBox.isSelected()){
+                        break;
+                    }
+                    else{
+                        count++;
+                    }
+                }
+                if(count == 256){
+                    showAlertBox();
+                }
+            }
+        });
         //Add the check boxes and the grid layout to the main frame.
         mainFrame.getContentPane().add(centerPanel);
     }
 
      public void showAlertBox(){
-
-        Alert alert = new Alert(AlertType.WARNING);
-        alert.setTitle("ALERT!");
-        alert.setHeaderText("");
-        alert.setContentText("Please select atleast one check box to continue.");
-        alert.showAndWait();
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-        if (e.getSource() == startButton){
-            for(JCheckBox c : checkBoxes){
-                if(c.isSelected())
-                    break;
-                else
-                    showAlertBox();
-            }
-        }else if(e.getSource() == stopButton){
-
-        }else if (e.getSource() == tempoUP){
-
-        }else if(e.getSource() == tempoDown){
-
-        }
+        JPanel jPanel = new JPanel();
+        JOptionPane.showMessageDialog(jPanel,"Please select atleast one check box to continue","Warning",JOptionPane.WARNING_MESSAGE);
     }
 
     public static void main(String[] args){
