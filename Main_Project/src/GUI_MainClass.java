@@ -5,19 +5,21 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.application.Platform;
 
+/**
+ * Build the Main GUI of the Beatbox app
+ *
+ * @author Raman Dutt
+ * @version 1.0
+ * @since 2017-11-22
+ */
 
 public class GUI_MainClass implements ActionListener {
 
-    /**
-        * Build the Main GUI of the Beatbox app
-        * @author  Raman Dutt
-        * @version 1.0
-        * @since   2017-11-22
-        */
 
     public JPanel leftPanel;
     public JPanel rightPanel;
@@ -37,10 +39,10 @@ public class GUI_MainClass implements ActionListener {
 
     //Name of the instruments and key codes.
     public final String[] instruments = {"Bass Drum", "Closed Hit-Hat", "Open Hit-Hat", "Acoustic Snare", "Crash Cymbal",
-                                    "Hand Clap", "High Tom", "High Bongo", "Maracas", "Whistle", "Low Conga",
-                                    "Cowbell", "Vibraslap", "Low-Mid Tom", "High Agogo", "Open High Conga"};
+            "Hand Clap", "High Tom", "High Bongo", "Maracas", "Whistle", "Low Conga",
+            "Cowbell", "Vibraslap", "Low-Mid Tom", "High Agogo", "Open High Conga"};
 
-    public void buildGUI(){
+    public void buildGUI() {
 
         mainFrame = new JFrame("THE CYBER BEATBOX");
         layout = new BorderLayout();
@@ -53,7 +55,7 @@ public class GUI_MainClass implements ActionListener {
         Box buttonBox = new Box(BoxLayout.Y_AXIS);
 
         backgroundPanel = new JPanel(layout);
-        backgroundPanel.setBorder(BorderFactory.createEmptyBorder(10, 10,10,10)); //To create a margin from all the sides.
+        backgroundPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); //To create a margin from all the sides.
 
         //Add the buttons in a vertical alignment.
         buttonBox.add(Box.createRigidArea(new Dimension(0, 70)));
@@ -69,6 +71,12 @@ public class GUI_MainClass implements ActionListener {
         buttonBox.add(tempoDown);
         buttonBox.add(Box.createRigidArea(new Dimension(0, 70)));
 
+        //Add action listeners to the buttons
+        startButton.addActionListener(this);
+        stopButton.addActionListener(this);
+        tempoUP.addActionListener(this);
+        tempoDown.addActionListener(this);
+
         //Add buttonBox to a panel and then add the panel to the Frame mainFrame.
         leftPanel.add(buttonBox);
         mainFrame.getContentPane().add(BorderLayout.EAST, leftPanel);
@@ -77,9 +85,9 @@ public class GUI_MainClass implements ActionListener {
 
         //Initialize the labels with the instruments list
 
-        EmptyBorder border = new EmptyBorder(15, 0,16,0);
+        EmptyBorder border = new EmptyBorder(15, 0, 16, 0);
 
-        for(int i=0; i<16; i++){
+        for (int i = 0; i < 16; i++) {
 
             JLabel label = new JLabel(instruments[i]);
             label.setFont(new Font("Serif", Font.BOLD, 12));
@@ -103,7 +111,7 @@ public class GUI_MainClass implements ActionListener {
 
         //Add Check Boxes to the grid Layout
 
-        for(int i=0; i<256; i++){
+        for (int i = 0; i < 256; i++) {
 
             JCheckBox cb = new JCheckBox();
             cb.setSelected(false);
@@ -115,7 +123,7 @@ public class GUI_MainClass implements ActionListener {
         mainFrame.getContentPane().add(centerPanel);
     }
 
-     public void showAlertBox(){
+    public void showAlertBox() {
 
         Alert alert = new Alert(AlertType.WARNING);
         alert.setTitle("ALERT!");
@@ -127,23 +135,34 @@ public class GUI_MainClass implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == startButton){
-            for(JCheckBox c : checkBoxes){
-                if(c.isSelected())
-                    break;
-                else
-                    showAlertBox();
-            }
-        }else if(e.getSource() == stopButton){
+        if (e.getSource() == startButton) {
+            checkCheckBoxes();          //To check if no checkBox is selected
 
-        }else if (e.getSource() == tempoUP){
+            SupportClass support = new SupportClass();
+            Thread t = new Thread(support);
+            t.start();
 
-        }else if(e.getSource() == tempoDown){
+        } else if (e.getSource() == stopButton) {
+
+        } else if (e.getSource() == tempoUP) {
+
+        } else if (e.getSource() == tempoDown) {
 
         }
     }
 
-    public static void main(String[] args){
+    public void checkCheckBoxes(){      //To traverse along the complete list of checkboxes and check if no checkbox is checked.
+        for(JCheckBox c : checkBoxes) {
+            if (c.isSelected()) {
+                break;
+            } else {
+                //TODO: call a method here to open an alert box
+                startButton.setText("Show alert");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
         GUI_MainClass gui = new GUI_MainClass();
         gui.buildGUI();
     }
