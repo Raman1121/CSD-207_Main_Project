@@ -18,7 +18,7 @@ import javafx.application.Platform;
  * @since 2017-11-22
  */
 
-public class GUI_MainClass implements ActionListener {
+public class GUI_MainClass {
 
 
     public JPanel leftPanel;
@@ -33,7 +33,7 @@ public class GUI_MainClass implements ActionListener {
     public static JButton stopButton = new JButton("STOP");
     public static JButton tempoUP = new JButton("TEMPO UP");
     public static JButton tempoDown = new JButton("TEMPO DOWN");
-
+    int count = 0;
     //Create an arrayList of Check Boxes
     ArrayList<JCheckBox> checkBoxes = new ArrayList<>();
 
@@ -42,8 +42,12 @@ public class GUI_MainClass implements ActionListener {
             "Hand Clap", "High Tom", "High Bongo", "Maracas", "Whistle", "Low Conga",
             "Cowbell", "Vibraslap", "Low-Mid Tom", "High Agogo", "Open High Conga"};
 
+<<<<<<< HEAD
     public void buildGUI() {
 
+=======
+    public void buildGUI(){
+>>>>>>> upstream/master
         mainFrame = new JFrame("THE CYBER BEATBOX");
         layout = new BorderLayout();
         leftPanel = new JPanel();
@@ -119,10 +123,28 @@ public class GUI_MainClass implements ActionListener {
 
             checkBoxes.add(cb);
         }
+
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(JCheckBox checkBox : checkBoxes){
+                    if(checkBox.isSelected()){
+                        break;
+                    }
+                    else{
+                        count++;
+                    }
+                }
+                if(count == 256){
+                    showAlertBox();
+                }
+            }
+        });
         //Add the check boxes and the grid layout to the main frame.
         mainFrame.getContentPane().add(centerPanel);
     }
 
+<<<<<<< HEAD
     public void showAlertBox() {
 
         Alert alert = new Alert(AlertType.WARNING);
@@ -149,6 +171,11 @@ public class GUI_MainClass implements ActionListener {
         } else if (e.getSource() == tempoDown) {
 
         }
+=======
+     public void showAlertBox(){
+        JPanel jPanel = new JPanel();
+        JOptionPane.showMessageDialog(jPanel,"Please select atleast one check box to continue","Warning",JOptionPane.WARNING_MESSAGE);
+>>>>>>> upstream/master
     }
 
     public void checkCheckBoxes(){      //To traverse along the complete list of checkboxes and check if no checkbox is checked.
