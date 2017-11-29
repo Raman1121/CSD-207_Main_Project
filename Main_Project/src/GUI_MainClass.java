@@ -42,12 +42,7 @@ public class GUI_MainClass {
             "Hand Clap", "High Tom", "High Bongo", "Maracas", "Whistle", "Low Conga",
             "Cowbell", "Vibraslap", "Low-Mid Tom", "High Agogo", "Open High Conga"};
 
-<<<<<<< HEAD
     public void buildGUI() {
-
-=======
-    public void buildGUI(){
->>>>>>> upstream/master
         mainFrame = new JFrame("THE CYBER BEATBOX");
         layout = new BorderLayout();
         leftPanel = new JPanel();
@@ -74,12 +69,6 @@ public class GUI_MainClass {
 
         buttonBox.add(tempoDown);
         buttonBox.add(Box.createRigidArea(new Dimension(0, 70)));
-
-        //Add action listeners to the buttons
-        startButton.addActionListener(this);
-        stopButton.addActionListener(this);
-        tempoUP.addActionListener(this);
-        tempoDown.addActionListener(this);
 
         //Add buttonBox to a panel and then add the panel to the Frame mainFrame.
         leftPanel.add(buttonBox);
@@ -144,49 +133,9 @@ public class GUI_MainClass {
         mainFrame.getContentPane().add(centerPanel);
     }
 
-<<<<<<< HEAD
-    public void showAlertBox() {
-
-        Alert alert = new Alert(AlertType.WARNING);
-        alert.setTitle("ALERT!");
-        alert.setHeaderText("");
-        alert.setContentText("Please select atleast one check box to continue.");
-        alert.showAndWait();
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-        if (e.getSource() == startButton) {
-            checkCheckBoxes();          //To check if no checkBox is selected
-
-            SupportClass support = new SupportClass();
-            Thread t = new Thread(support);
-            t.start();
-
-        } else if (e.getSource() == stopButton) {
-
-        } else if (e.getSource() == tempoUP) {
-
-        } else if (e.getSource() == tempoDown) {
-
-        }
-=======
      public void showAlertBox(){
         JPanel jPanel = new JPanel();
         JOptionPane.showMessageDialog(jPanel,"Please select atleast one check box to continue","Warning",JOptionPane.WARNING_MESSAGE);
->>>>>>> upstream/master
-    }
-
-    public void checkCheckBoxes(){      //To traverse along the complete list of checkboxes and check if no checkbox is checked.
-        for(JCheckBox c : checkBoxes) {
-            if (c.isSelected()) {
-                break;
-            } else {
-                //TODO: call a method here to open an alert box
-                startButton.setText("Show alert");
-            }
-        }
     }
 
     public static void main(String[] args) {
