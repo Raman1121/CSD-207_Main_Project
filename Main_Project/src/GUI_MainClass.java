@@ -118,6 +118,10 @@ public class GUI_MainClass {
             public void actionPerformed(ActionEvent e) {
                 for(JCheckBox checkBox : checkBoxes){
                     if(checkBox.isSelected()){
+                        //TODO: Add function to start a new GUI here.
+                        SupportClass support = new SupportClass();
+                        Thread t = new Thread(support);
+                        t.start();
                         break;
                     }
                     else{
@@ -141,6 +145,7 @@ public class GUI_MainClass {
     public static void main(String[] args) {
         GUI_MainClass gui = new GUI_MainClass();
         gui.buildGUI();
+
     }
 
 
