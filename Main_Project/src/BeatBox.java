@@ -235,7 +235,7 @@ public class BeatBox {
         }
     }
 
-   /* public void restartPlayer() {
+    public void restartPlayer() {
         if (sequencer.isRunning()) {
             stopPlayer();
         }
@@ -243,7 +243,7 @@ public class BeatBox {
             startPlayer();
         }
     }
-*/
+
     private void createSong() {
         int volume = 127; // Range - 0-127
         // add instruments[chanNo] change event in channel[chanNo]
