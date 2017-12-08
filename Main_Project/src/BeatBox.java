@@ -49,7 +49,7 @@ public class BeatBox {
                 "Vibraslap", "Low-mid Tom", "High Agogo", "Open Hi Conga"
         };
     }
-
+//
     public void run() {
         // setup application
         setupGUI();
