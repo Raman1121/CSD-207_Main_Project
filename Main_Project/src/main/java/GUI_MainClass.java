@@ -13,7 +13,7 @@ import javafx.application.Platform;
 /**
  * Build the Main GUI of the Beatbox app
  *
- * @author Everyone
+ * @author Raman Dutt
  * @version 1.0
  * @since 2017-11-22
  */

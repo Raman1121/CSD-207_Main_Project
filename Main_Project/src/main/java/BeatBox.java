@@ -1,6 +1,10 @@
+import main.java.Mongo;
+
 import javax.sound.midi.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
@@ -49,7 +53,7 @@ public class BeatBox {
                 "Vibraslap", "Low-mid Tom", "High Agogo", "Open Hi Conga"
         };
     }
-//
+
     public void run() {
         // setup application
         setupGUI();
@@ -324,7 +328,14 @@ public class BeatBox {
         resetBTN.addActionListener(e -> resetPlayer());
         tempoUpBTN.addActionListener(e -> tempoUpPlayer());
         tempoDownBTN.addActionListener(e -> tempoDownPlayer());
-        saveBTN.addActionListener(e -> save());
+        saveBTN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selected = getChecked();
+                Mongo.addDocument(selected);
+
+            }
+        });
         playFromSavedBTN.addActionListener(e -> playSaved());
 
         for (JCheckBox aCheckboxList : checkboxList) {
@@ -336,22 +347,28 @@ public class BeatBox {
         }
 
 }
-    private void save() {
+    private String getChecked() {
         int flag = 0;
+        String selected = "";
         for (int i = 0; i < 16; i++) { // row - instrument [0 - 15] or channel
             for (int j = 0; j < 16; j++) { // column - beat [0 - 15]
                 if (checkboxList.get(j + i * 16).isSelected()) {
-                    store[i][j] = 1;
+                    selected += "1";
                     flag = 1;
+                }
+                else{
+                    selected += "0";
                 }
             }
         }
             if (flag == 0) {
                 JPanel jPanel = new JPanel();
                 JOptionPane.showMessageDialog(jPanel, "Please select atleast one check box to continue", "Warning", JOptionPane.WARNING_MESSAGE);
+                return null;
             }
-
+            return selected;
     }
+
     private void playSaved() {
         if (store == null) {
             JPanel jPanel = new JPanel();

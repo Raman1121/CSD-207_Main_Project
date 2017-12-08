@@ -15,7 +15,7 @@ public class AudioPlayer
     // to store current position
     Long currentFrame;
     Clip clip;
-    //// 
+     
     // current status of clip
     String status;
      
