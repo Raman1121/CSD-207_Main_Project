@@ -9,15 +9,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class newUser extends JFrame{
-	JButton Jbt2;
-	JLabel label1;
-	JLabel label2;
-	JTextField username;
-	JPasswordField password;
-	JPasswordField confirm;
+	private static JButton Jbt2;
+	private static JLabel label1;
+	private static JLabel label2;
+	private static JTextField username;
+	private static JPasswordField password;
+	private static JPasswordField confirm;
 
-	public newUser()
-	{
+	public void run(){
 
 		// set size of layout
 		setLayout(new BorderLayout());
@@ -44,13 +43,29 @@ public class newUser extends JFrame{
 		labl.setBackground(Color.WHITE);
 		sel.setBackground(Color.lightGray);
 
-        Jbt2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SupportClass support = new SupportClass();
-                support.run();
-            }
-        });
+		Jbt2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String user = username.getText();
+				String pass = password.getText();
+				String confirmPass = confirm.getText();
+				if(user.length() <= 0 || pass.length() <= 0 || confirmPass.length() <= 0){
+					JOptionPane.showMessageDialog(labl,"Valid valid credentials");
+				}
+				else{
+					if(pass.equals(confirmPass)){
+						String encryptPass = AES.encrypt(pass,"CapsLock");
+						System.out.println(encryptPass);
+						Mongo.addUser(user,encryptPass);
+						Util.setCurrentUser(user);
+						new BeatBox(user);
+					}
+					else{
+						JOptionPane.showMessageDialog(labl,"Invalid Password");
+					}
+				}
+			}
+		});
 
 
 		// add lable to labl panel

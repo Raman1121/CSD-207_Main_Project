@@ -38,10 +38,11 @@ public class BeatBox {
     private Sequencer sequencer;
 
     public static void main(String[] args) {
-        new BeatBox().run();
+        new BeatBox(null).run();
     }
 
-    public BeatBox() {
+    public BeatBox(String currentUser) {
+        signedInUser = currentUser;
         instruments = new int[]{
                 35, 42, 46, 38,
                 49, 39, 50, 60,
@@ -202,7 +203,7 @@ public class BeatBox {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selected = getChecked();
-                Mongo.addDocument(selected);
+                Mongo.addDocument(signedInUser,selected);
                 JPanel jPane = new JPanel();
                 JOptionPane.showMessageDialog(jPane, "Your Tune has been saved successfully!", "Tune Saved", JOptionPane.INFORMATION_MESSAGE);
 

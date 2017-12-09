@@ -7,15 +7,15 @@ import java.awt.*;
 public class login extends JFrame
 {
 
-	JButton Jbt;
-	JButton Jbt2;
-	JLabel sSays;
-	JLabel entr;
-	JTextField	Jtx;
-	JPasswordField password;
+	private static JButton Jbt;
+	private static JButton Jbt2;
+	private static JLabel sSays;
+	private static JLabel entr;
+	private static JTextField	Jtx;
+	private static JPasswordField password;
+	private static JPanel labl;
 
-	public login()
-	{
+	public void run() {
 
 		// set size of layout
 		setLayout(new BorderLayout());
@@ -34,7 +34,7 @@ public class login extends JFrame
 		password.selectAll();
 
 		// set panels
-		JPanel labl = new JPanel(new FlowLayout());
+		labl = new JPanel(new FlowLayout());
 
 		JPanel sel	= new JPanel(new FlowLayout(FlowLayout.CENTER, 100, 50));
 
@@ -42,21 +42,28 @@ public class login extends JFrame
 		labl.setBackground(Color.WHITE);
 		sel.setBackground(Color.lightGray);
 
-        //Add a action Listener to the buttons
-        Jbt.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-            }
-        });
+		//Add a action Listener to the buttons
+		Jbt.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String user = Jtx.getText();
+				String pass = password.getText();
+				if(user.length() <= 0 || pass.length() <= 0){
+					login.showMessage();
+				}
+				else{
+					Util.checkUser(user,AES.encrypt(pass,"CapsLock"));
+				}
+			}
+		});
 
 
-        Jbt2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                newUser user = new newUser();
-            }
-        });
+		Jbt2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new newUser().run();
+			}
+		});
 
 
 		// add lable to labl panel
@@ -86,6 +93,12 @@ public class login extends JFrame
 
 		setVisible(true);
 
+	}
+
+	public static void showMessage(){
+		JOptionPane.showMessageDialog(labl,"Enter valid username or password");
+		Jtx.setText("");
+		password.setText("");
 	}
 
 	public static void main(String[] args)
