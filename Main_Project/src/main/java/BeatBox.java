@@ -60,20 +60,25 @@ public class BeatBox {
     public void run() {
         // setup application
         signedInUser = Util.checkIfLoggedIn();
-        setupGUI();
-        player = new Player(checkboxList,instrumentNames,instruments,mainFrame,title);
-        player.setupPlayer();
+        if(signedInUser == null){
+            new login().run();
+        }
+        else {
+            setupGUI();
+            player = new Player(checkboxList, instrumentNames, instruments, mainFrame, title);
+            player.setupPlayer();
 
-        // run/generate application
-        createGUI();
-        createListeners();
+            // run/generate application
+            createGUI();
+            createListeners();
 
-        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        mainFrame.pack();
-        mainFrame.setResizable(false);
-        mainFrame.setLocationRelativeTo(null);
-        mainFrame.setVisible(true);
-        mainFrame.requestFocus();
+            mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            mainFrame.pack();
+            mainFrame.setResizable(false);
+            mainFrame.setLocationRelativeTo(null);
+            mainFrame.setVisible(true);
+            mainFrame.requestFocus();
+        }
     }
 
 
