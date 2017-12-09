@@ -20,6 +20,7 @@ public class Player {
     private String instrumentNames[];
     private int[] instruments;
     private StringBuilder title;
+    private static int[] instrumentCounter={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
     public Player(ArrayList<JCheckBox> checkBoxList,String[] instrumentsList,int[] instrumentsInt,JFrame mainFrame,StringBuilder builder){
         checkboxList = checkBoxList;
@@ -28,6 +29,7 @@ public class Player {
         frame = mainFrame;
         title = builder;
         store = new int[16][16];
+
     }
 
     public void setupPlayer() {
@@ -167,6 +169,7 @@ public class Player {
 
                     // store[chanNo][j]=1;
                     isEmptyNoteEvents = false;
+                    instrumentCounter[chanNo]++;
                 }
             }
 
@@ -183,6 +186,10 @@ public class Player {
             e.printStackTrace();
         }
         return new MidiEvent(msg, tick);
+    }
+    public static int[] getInstrumentCounts()
+    {
+        return instrumentCounter;
     }
 
     public void RetrieveAndPlaySong(int[][] stored) {

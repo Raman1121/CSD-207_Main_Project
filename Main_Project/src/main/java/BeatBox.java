@@ -5,6 +5,7 @@ import main.java.Player;
 
 import javax.sound.midi.*;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 public class BeatBox {
     private final int[] instruments;
     private final String[] instrumentNames;
+    private JFrame myframe;
     private JFrame mainFrame;
     private JButton playBTN;
     private JButton stopBTN;
@@ -27,6 +29,7 @@ public class BeatBox {
     private JButton saveBTN;
     private JButton tempoUpBTN;
     private JButton tempoDownBTN;
+    private JButton instrumentCounterBTN;
     private JPanel mainPanel;
     private ArrayList<JCheckBox> checkboxList;
     private StringBuilder title;
@@ -94,6 +97,7 @@ public class BeatBox {
         tempoDownBTN = new JButton("<");
         saveBTN = new JButton("Save tune.");
         playFromSavedBTN = new JButton("Play From Saved");
+        instrumentCounterBTN = new JButton("Get instrument stats");
     }
 
 
@@ -118,7 +122,6 @@ public class BeatBox {
                 mainPanel.add(cb);
             }
         }
-
         // add buttons to buttonsPanel
         Box buttonsPanel = new Box(BoxLayout.Y_AXIS);
         // @FIxMe Align buttons to right
@@ -132,6 +135,8 @@ public class BeatBox {
         buttonsPanel.add(saveBTN);
         playFromSavedBTN.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         buttonsPanel.add(playFromSavedBTN);
+        instrumentCounterBTN.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        buttonsPanel.add(instrumentCounterBTN);
 
         // add tempoButton to tempoPanel
         Box tempoPanel = new Box(BoxLayout.X_AXIS);
@@ -169,6 +174,7 @@ public class BeatBox {
         resetBTN.addActionListener(e -> player.resetPlayer());
         tempoUpBTN.addActionListener(e -> player.tempoUpPlayer());
         tempoDownBTN.addActionListener(e -> player.tempoDownPlayer());
+        instrumentCounterBTN.addActionListener(e -> instrumentStats());
         saveBTN.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -201,7 +207,22 @@ public class BeatBox {
             }
             return selected;
     }
-
+    public void instrumentStats() {
+        myframe = new JFrame("Instrument stats");
+        int[] stats = Player.getInstrumentCounts();
+        JPanel instrumentsPanel = new JPanel(new GridLayout(16, 1, 1, 2));
+        for (int i = 0; i < 16; i++) {
+            // create JLabel of Instruments & add tof
+            // WEST box
+            JLabel instrumentName = new JLabel(instrumentNames[i]+" has been used : " + stats[i] + " times.", SwingConstants.LEFT);
+            instrumentName.setFont(new Font("Georgia", Font.PLAIN, 15));
+            instrumentsPanel.add(instrumentName);
+            myframe.add(instrumentsPanel);
+            myframe.setSize(500,500);
+            myframe.setVisible(true);
+            // create unselected checkboxes of corresponding instruments
+        }
+    }
     public void updateGUI() {
     }
 }
