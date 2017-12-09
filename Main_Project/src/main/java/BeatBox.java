@@ -49,7 +49,7 @@ public class BeatBox {
         };
         instrumentNames = new String[]{
                 "Bass Drum", "Closed Hi-Hat", "Open Hi-Hat", "Acoustic Snare",
-                "Crash Cymbal", "Hand Clap", "High Tom", "Hi Bongo",
+                "Crash Cymbal", "Clap", "High Tom", "Hi Bongo",
                 "Maracas", "Whistle", "Low Conga", "Cowbell",
                 "Vibraslap", "Low-mid Tom", "High Agogo", "Open Hi Conga"
         };
@@ -90,14 +90,14 @@ public class BeatBox {
         checkboxList = new ArrayList<JCheckBox>(256);
 
         // buttons config.
-        playBTN = new JButton("Play");
-        stopBTN = new JButton("Stop");
-        resetBTN = new JButton("Reset");
+        playBTN = new JButton("PLAY");
+        stopBTN = new JButton("STOP");
+        resetBTN = new JButton("RESET");
         tempoUpBTN = new JButton(">");
         tempoDownBTN = new JButton("<");
-        saveBTN = new JButton("Save tune.");
+        saveBTN = new JButton("Save Tune");
         playFromSavedBTN = new JButton("Play From Saved");
-        instrumentCounterBTN = new JButton("Get instrument stats");
+        instrumentCounterBTN = new JButton("Get Instrument Stats");
     }
 
 
@@ -126,24 +126,39 @@ public class BeatBox {
         Box buttonsPanel = new Box(BoxLayout.Y_AXIS);
         // @FIxMe Align buttons to right
         playBTN.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        playBTN.setForeground(Color.green);
+        playBTN.setBackground(Color.black);
         buttonsPanel.add(playBTN);
+
         stopBTN.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        stopBTN.setBackground(Color.black);
+        stopBTN.setForeground(Color.red);
         buttonsPanel.add(stopBTN);
+
         resetBTN.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        resetBTN.setBackground(Color.black);
         buttonsPanel.add(resetBTN);
+
         saveBTN.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        saveBTN.setForeground(Color.green);
         buttonsPanel.add(saveBTN);
+
         playFromSavedBTN.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        playFromSavedBTN.setBackground(Color.RED);
+        playFromSavedBTN.setForeground(Color.DARK_GRAY);
         buttonsPanel.add(playFromSavedBTN);
+
         instrumentCounterBTN.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        instrumentCounterBTN.setBackground(Color.DARK_GRAY);
+        instrumentCounterBTN.setForeground(Color.DARK_GRAY);
         buttonsPanel.add(instrumentCounterBTN);
 
         // add tempoButton to tempoPanel
         Box tempoPanel = new Box(BoxLayout.X_AXIS);
         // @FixMe Align buttons to center
-        tempoDownBTN.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        tempoDownBTN.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         tempoPanel.add(tempoDownBTN);
-        tempoUpBTN.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        tempoUpBTN.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         tempoPanel.add(tempoUpBTN);
 
         // add padding to mainFrame
