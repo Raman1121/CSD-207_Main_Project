@@ -128,14 +128,14 @@ public class Player {
     }
 
     public void tempoUpPlayer() {
-        BPM += 50;
+        BPM += 25;
         if (sequencer.isRunning()) {
             restartPlayer();
         }
     }
 
     public void tempoDownPlayer() {
-        BPM -= 50;
+        BPM -= 25;
         if (sequencer.isRunning()) {
             restartPlayer();
         }

@@ -133,17 +133,17 @@ public class BeatBox {
         // add buttons to buttonsPanel
         Box buttonsPanel = new Box(BoxLayout.Y_AXIS);
         // @FIxMe Align buttons to right
-        playBTN.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        playBTN.setBorder(BorderFactory.createEmptyBorder(7, 15, 7, 15));
         playBTN.setForeground(new Color(0, 100, 0));
         playBTN.setBackground(Color.black);
         buttonsPanel.add(playBTN);
 
-        stopBTN.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        stopBTN.setBorder(BorderFactory.createEmptyBorder(7, 15, 7, 15));
         stopBTN.setBackground(Color.black);
         stopBTN.setForeground(Color.red);
         buttonsPanel.add(stopBTN);
 
-        resetBTN.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        resetBTN.setBorder(BorderFactory.createEmptyBorder(7, 15, 7, 15));
         resetBTN.setBackground(Color.black);
         buttonsPanel.add(resetBTN);
 
@@ -203,6 +203,9 @@ public class BeatBox {
             public void actionPerformed(ActionEvent e) {
                 String selected = getChecked();
                 Mongo.addDocument(selected);
+                JPanel jPane = new JPanel();
+                JOptionPane.showMessageDialog(jPane, "Your Tune has been saved successfully!", "Tune Saved", JOptionPane.INFORMATION_MESSAGE);
+
 
             }
         });
