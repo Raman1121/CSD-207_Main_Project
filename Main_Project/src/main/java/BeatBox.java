@@ -34,6 +34,7 @@ public class BeatBox {
     private ArrayList<JCheckBox> checkboxList;
     private StringBuilder title;
     private Player player;
+    private String signedInUser;
     private Sequencer sequencer;
 
     public static void main(String[] args) {
@@ -57,6 +58,7 @@ public class BeatBox {
 
     public void run() {
         // setup application
+        signedInUser = Util.checkIfLoggedIn();
         setupGUI();
         player = new Player(checkboxList,instrumentNames,instruments,mainFrame,title);
         player.setupPlayer();
