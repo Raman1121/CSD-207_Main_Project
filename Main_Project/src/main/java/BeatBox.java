@@ -1,4 +1,7 @@
+package main.java;
+
 import main.java.Mongo;
+import main.java.Player;
 
 import javax.sound.midi.*;
 import javax.swing.*;
@@ -14,10 +17,8 @@ import java.util.ArrayList;
  * @since 0.1
  */
 public class BeatBox {
-    private Sequencer sequencer;
     private final int[] instruments;
     private final String[] instrumentNames;
-    private Sequence sequence;
     private JFrame mainFrame;
     private JButton playBTN;
     private JButton stopBTN;
@@ -29,11 +30,8 @@ public class BeatBox {
     private JPanel mainPanel;
     private ArrayList<JCheckBox> checkboxList;
     private StringBuilder title;
-    boolean isPlaying;
-    boolean isEmptyNoteEvents;
-    private Track track;
-    private float BPM;
-    private int[][] store;
+    private Player player;
+    private Sequencer sequencer;
 
     public static void main(String[] args) {
         new BeatBox().run();
@@ -57,7 +55,8 @@ public class BeatBox {
     public void run() {
         // setup application
         setupGUI();
-        setupPlayer();
+        player = new Player(checkboxList,instrumentNames,instruments,mainFrame,title);
+        player.setupPlayer();
 
         // run/generate application
         createGUI();
@@ -88,7 +87,6 @@ public class BeatBox {
         checkboxList = new ArrayList<JCheckBox>(256);
 
         // buttons config.
-        store = new int[16][16];
         playBTN = new JButton("Play");
         stopBTN = new JButton("Stop");
         resetBTN = new JButton("Reset");
@@ -163,171 +161,14 @@ public class BeatBox {
         mainFrame.getContentPane().add(backgroundPanel);
     }
 
-    private void setupPlayer() {
-        try {
-            BPM = 120;
-            sequencer = MidiSystem.getSequencer();
-            sequence = new Sequence(Sequence.PPQ, 4, 0);
 
-            isPlaying = false;
-            isEmptyNoteEvents = true;
-        } catch (MidiUnavailableException | InvalidMidiDataException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void startPlayer() {
-
-        // start playing
-        if (sequencer.isRunning()) {
-            stopPlayer();
-        }
-        try {
-//			System.out.println("\nOpened Sequencer"); // @FixME Delete
-            sequencer.open();
-            track = sequence.createTrack();
-            createSong();
-            sequencer.setSequence(sequence);
-            sequencer.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
-            sequencer.setTempoInBPM(BPM);
-            sequencer.start();
-            isPlaying = true;
-            updateTitle();
-//			System.out.println("Total events in track = " + track.size()); // @FixME Delete
-            if (isEmptyNoteEvents) {
-                stopPlayer();
-            }
-        } catch (MidiUnavailableException | InvalidMidiDataException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void stopPlayer() {
-
-        sequence.deleteTrack(track);
-
-        // stop playing
-//		System.out.println("\nClosed Sequencer"); // @FixME Delete
-        sequencer.close();
-
-        isPlaying = false;
-        isEmptyNoteEvents = true;
-    }
-
-    public void resetPlayer() {
-        stopPlayer();
-        BPM = 120;
-        updateTitle();
-
-        for (JCheckBox aCheckboxList : checkboxList) {
-            aCheckboxList.setSelected(false);
-        }
-    }
-
-    public void tempoUpPlayer() {
-        BPM += 50;
-        if (sequencer.isRunning()) {
-            restartPlayer();
-        }
-    }
-
-    public void tempoDownPlayer() {
-        BPM -= 50;
-        if (sequencer.isRunning()) {
-            restartPlayer();
-        }
-    }
-
-    public void restartPlayer() {
-        if (sequencer.isRunning()) {
-            stopPlayer();
-        }
-        if (!sequencer.isRunning()) {
-            startPlayer();
-        }
-    }
-
-    private void createSong() {
-        int volume = 127; // Range - 0-127
-        // add instruments[chanNo] change event in channel[chanNo]
-        track.add(makeEvent(ShortMessage.PROGRAM_CHANGE, 9, 1, 127, 0));
-
-        for (int chanNo = 0; chanNo < 16; chanNo++) { // row - instrument [0 - 15] or channel
-            for (int j = 0; j < 16; j++) { // column - beat [0 - 15]
-                if (checkboxList.get(j + chanNo * 16).isSelected()) {
-
-                    // add Note ON event to channel[chanNo]
-                    track.add(makeEvent(ShortMessage.NOTE_ON, 9, instruments[chanNo], volume, j));
-//					System.out.println("Added Drum ON - " + instrumentNames[chanNo] + " at Beat #" + j); // @FixME Delete
-
-                    // add Note OFF event
-                    track.add(makeEvent(ShortMessage.NOTE_OFF, 9, instruments[chanNo], volume, j + 1));
-//					System.out.println("Added Drum OFF - " + instrumentNames[chanNo] + " at Beat #" + (j + 1)); // @FixME Delete
-
-                   // store[chanNo][j]=1;
-                    isEmptyNoteEvents = false;
-                }
-            }
-
-            // @TODO add control change event to beat[15 + noteOffset]
-            track.add(makeEvent(ShortMessage.CONTROL_CHANGE, 9, 127, 0, 16));
-        }
-    }
-    private void RetrieveAndPlaySong(int[][] stored) {
-
-        // start playing
-        if (sequencer.isRunning()) {
-            stopPlayer();
-        }
-        try {
-//			System.out.println("\nOpened Sequencer"); // @FixME Delete
-            int volume = 127; // Range - 0-127
-            sequencer.open();
-            track = sequence.createTrack();
-            sequencer.setSequence(sequence);
-            sequencer.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
-            track.add(makeEvent(ShortMessage.PROGRAM_CHANGE, 9, 1, 127, 0));
-            for (int i = 0; i < 16; i++) { // row - instrument [0 - 15] or channel
-                for (int j = 0; j < 16; j++) { // column - beat [0 - 15]
-                    checkboxList.get(j + i * 16).setSelected(false);
-                    if (stored[i][j]==1) {
-                        checkboxList.get(j + i * 16).setSelected(true);
-                        // add Note ON event to channel[chanNo]
-                        track.add(makeEvent(ShortMessage.NOTE_ON, 9, instruments[i], volume, j));
-//					System.out.println("Added Drum ON - " + instrumentNames[chanNo] + " at Beat #" + j); // @FixME Delete
-
-                        // add Note OFF event
-                        track.add(makeEvent(ShortMessage.NOTE_OFF, 9, instruments[i], volume, j + 1));
-//					System.out.println("Added Drum OFF - " + instrumentNames[chanNo] + " at Beat #" + (j + 1)); // @FixME Delete
-                        isEmptyNoteEvents = false;
-                    }
-                }
-
-                // @TODO add control change event to beat[15 + noteOffset]
-                track.add(makeEvent(ShortMessage.CONTROL_CHANGE, 9, 127, 0, 16));
-            }
-
-            sequencer.setTempoInBPM(BPM);
-            sequencer.start();
-            isPlaying = true;
-            updateTitle();
-//			System.out.println("Total events in track = " + track.size()); // @FixME Delete
-            if (isEmptyNoteEvents) {
-                stopPlayer();
-            }
-        } catch (MidiUnavailableException | InvalidMidiDataException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     private void createListeners() {
-        playBTN.addActionListener(e -> startPlayer());
-        stopBTN.addActionListener(e -> stopPlayer());
-        resetBTN.addActionListener(e -> resetPlayer());
-        tempoUpBTN.addActionListener(e -> tempoUpPlayer());
-        tempoDownBTN.addActionListener(e -> tempoDownPlayer());
+        playBTN.addActionListener(e -> player.startPlayer());
+        stopBTN.addActionListener(e -> player.stopPlayer());
+        resetBTN.addActionListener(e -> player.resetPlayer());
+        tempoUpBTN.addActionListener(e -> player.tempoUpPlayer());
+        tempoDownBTN.addActionListener(e -> player.tempoDownPlayer());
         saveBTN.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -336,17 +177,9 @@ public class BeatBox {
 
             }
         });
-        playFromSavedBTN.addActionListener(e -> playSaved());
-
-        for (JCheckBox aCheckboxList : checkboxList) {
-            aCheckboxList.addActionListener(e -> {
-                if (sequencer.isRunning()) {
-                    restartPlayer();
-                }
-            });
+        playFromSavedBTN.addActionListener(e -> player.playSaved());
         }
 
-}
     private String getChecked() {
         int flag = 0;
         String selected = "";
@@ -367,32 +200,6 @@ public class BeatBox {
                 return null;
             }
             return selected;
-    }
-
-    private void playSaved() {
-        if (store == null) {
-            JPanel jPanel = new JPanel();
-            JOptionPane.showMessageDialog(jPanel,"Nothing stored.","Warning",JOptionPane.WARNING_MESSAGE);
-        }
-        else
-        {
-            RetrieveAndPlaySong(store);
-        }
-
-    }
-    private MidiEvent makeEvent(int cmd, int chan, int data1, int data2, long tick) {
-        ShortMessage msg = null;
-        try {
-            msg = new ShortMessage(cmd, chan, data1, data2);
-        } catch (InvalidMidiDataException e) {
-            e.printStackTrace();
-        }
-        return new MidiEvent(msg, tick);
-    }
-
-    private void updateTitle() {
-        // @FIXME might be redundant method
-        mainFrame.setTitle(title.toString() + " - BPM: " + BPM);
     }
 
     public void updateGUI() {
