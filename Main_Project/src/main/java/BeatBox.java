@@ -93,13 +93,19 @@ public class BeatBox {
 
         // buttons config.
         playBTN = new JButton("PLAY");
+        playBTN.setFont(new Font("Tahoma", Font.BOLD, 13));
         stopBTN = new JButton("STOP");
+        stopBTN.setFont(new Font("Tahoma", Font.BOLD, 13));
         resetBTN = new JButton("RESET");
+        resetBTN.setFont(new Font("Tahoma", Font.BOLD, 13));
         tempoUpBTN = new JButton(">");
         tempoDownBTN = new JButton("<");
         saveBTN = new JButton("Save Tune");
+        saveBTN.setFont(new Font("Tahoma", Font.BOLD, 13));
         playFromSavedBTN = new JButton("Play From Saved");
+        playFromSavedBTN.setFont(new Font("Tahoma", Font.BOLD, 13));
         instrumentCounterBTN = new JButton("Get Instrument Stats");
+        instrumentCounterBTN.setFont(new Font("Tahoma", Font.BOLD, 13));
     }
 
 
@@ -128,7 +134,7 @@ public class BeatBox {
         Box buttonsPanel = new Box(BoxLayout.Y_AXIS);
         // @FIxMe Align buttons to right
         playBTN.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        playBTN.setForeground(Color.green);
+        playBTN.setForeground(new Color(0, 100, 0));
         playBTN.setBackground(Color.black);
         buttonsPanel.add(playBTN);
 
@@ -142,7 +148,7 @@ public class BeatBox {
         buttonsPanel.add(resetBTN);
 
         saveBTN.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        saveBTN.setForeground(Color.green);
+        saveBTN.setForeground(new Color(0, 0, 205));
         buttonsPanel.add(saveBTN);
 
         playFromSavedBTN.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -234,7 +240,7 @@ public class BeatBox {
             JLabel instrumentName = new JLabel(instrumentNames[i]+" has been used : " + stats[i] + " times.", SwingConstants.LEFT);
             instrumentName.setFont(new Font("Georgia", Font.PLAIN, 15));
             instrumentsPanel.add(instrumentName);
-            myframe.add(instrumentsPanel);
+            myframe.getContentPane().add(instrumentsPanel);
             myframe.setSize(500,500);
             myframe.setVisible(true);
             // create unselected checkboxes of corresponding instruments
