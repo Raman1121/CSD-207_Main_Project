@@ -1,35 +1,37 @@
 package main.java;
 
 import javax.swing.*;
-import java.awt.event.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class login extends JFrame
-{
-
-	JButton Jbt;
+public class newUser extends JFrame{
 	JButton Jbt2;
-	JLabel sSays;
-	JLabel entr;
-	JTextField	Jtx;
+	JLabel label1;
+	JLabel label2;
+	JTextField username;
 	JPasswordField password;
+	JPasswordField confirm;
 
-	public login()
+	public newUser()
 	{
 
 		// set size of layout
 		setLayout(new BorderLayout());
 
 		// labels and buttons
-		sSays = new JLabel("Welcome to The Cyber Beatbox");
-		sSays.setFont(new Font("SansSerif",Font.BOLD, 20));
-		entr = new JLabel("Please Enter Username and Password to begin:");
-		Jtx = new JTextField("Enter Username",15);
+		label1 = new JLabel("Sign Up");
+		label1.setFont(new Font("SansSerif",Font.BOLD, 25));
+		label2 = new JLabel("Please Enter Username and Password to sign up:");
+		username = new JTextField("Enter Username",15);
 		password = new JPasswordField("Enter Password",15);
-		Jbt = new JButton("Login");
-		Jbt2 = new JButton("Create New User");
+		confirm = new JPasswordField("Confirm Password", 15);
+		Jbt2 = new JButton("Sign Up");
 
-		Jtx.selectAll();
+		username.selectAll();
 		password.requestFocus();
 		password.selectAll();
 
@@ -42,33 +44,24 @@ public class login extends JFrame
 		labl.setBackground(Color.WHITE);
 		sel.setBackground(Color.lightGray);
 
-        //Add a action Listener to the buttons
-        Jbt.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-            }
-        });
-
-
         Jbt2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                newUser user = new newUser();
+                SupportClass support = new SupportClass();
+                support.run();
             }
         });
 
 
 		// add lable to labl panel
-		labl.add(sSays);
+		labl.add(label1);
 
 
 		// add to sel Panel
-		sel.add(entr);
-		sel.add(Jtx);
+		sel.add(label2);
+		sel.add(username);
 		sel.add(password);
-		sel.add(Jbt);
-		Jbt.setBackground(Color.orange);
+		sel.add(confirm);
 		sel.add(Jbt2);
 		Jbt2.setBackground(Color.orange);
 
@@ -90,7 +83,7 @@ public class login extends JFrame
 
 	public static void main(String[] args)
 	{
-		new login();
+		new newUser();
 	}
 
 }
