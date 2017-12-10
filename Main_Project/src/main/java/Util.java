@@ -54,7 +54,7 @@ public class Util {
             for (JSONObject object : data) {
                 String user = (String) object.get("username");
                 String decryptPass = (String) object.get("password");
-                if (user.equals(username) && decryptPass.equals(pass)) {
+                if (user.equals(username) && AES.decrypt(decryptPass,"CapsLock").equals(AES.decrypt(pass,"CapsLock"))) {
                     Util.setCurrentUser(user);
                     new BeatBox(user).run();
                 } else {
